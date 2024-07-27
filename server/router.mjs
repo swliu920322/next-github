@@ -1,17 +1,21 @@
 import Router from 'koa-router';
 
 const koaRouter = new Router();
-koaRouter.get('/set/user', async (ctx) => {
-  ctx.session.user = {
-    name: 'MAX',
-    age: 30,
-  };
-  ctx.body = 'set session success';
-})
+koaRouter
   .get('/delete/user', async (ctx) => {
     // koa-session会自动destroy所有session
     ctx.session = null;
     ctx.body = 'clear session success';
+  })
+  .get('/api/user/userInfo', async ctx => {
+    const user = ctx.session.userInfo;
+    if (!user) {
+      ctx.status = 401;
+      ctx.body = 'need login';
+    } else {
+      ctx.body = user;
+      ctx.set('Content-type', 'application/json');
+    }
   })
   .post('/api/counter', async (ctx, next) => {
     console.log('ctx', ctx);

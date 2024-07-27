@@ -28,12 +28,6 @@ app.prepare()
       key: 'mid',
       store: new RedisSessionStore(redis),
     };
-    server
-      .use(Session(SESSION_CONFIG, server))
-      .use(async (ctx, next) => {
-        console.log('session is:', ctx.session);
-        await next();
-      });
 
 
     koaRouter.get(/.*/, async (ctx) => {
@@ -46,6 +40,11 @@ app.prepare()
 
     authServer(server);
     server
+      .use(Session(SESSION_CONFIG, server))
+      .use(async (ctx, next) => {
+        console.log('session is:', ctx.session);
+        await next();
+      })
       .use(cors({ origin: '*' }))
       .use(koaRouter.routes())
       .use(koaRouter.allowedMethods())
