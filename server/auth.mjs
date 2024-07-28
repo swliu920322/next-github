@@ -39,6 +39,6 @@ export default (server) => {
     })
     .use(async (ctx, next) => {
       ctx.req.session = ctx.session;
-      await next()
+      await next();
     });
 };

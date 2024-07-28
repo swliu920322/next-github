@@ -2,6 +2,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import Search from 'antd/lib/input/Search';
 import axios from 'axios';
+import { useAppDispatch } from '@/lib/hooks';
+import { initial } from '@/lib/features/user/userSlice';
 
 export function SearchBar() {
   const [searchContext, setSearchContext] = useState('');
@@ -11,11 +13,14 @@ export function SearchBar() {
   const onSearch = useCallback(() => {
     console.log('onSearch', searchContext);
   }, [searchContext]);
+  const dispatch = useAppDispatch();
   useEffect(() => {
-    axios.get('/api/user/userInfo').then(resp => {
-      console.log(resp);
-    });
+    axios.get('/api/user/userInfo')
+      .then(resp => {
+        dispatch(initial(resp.data));
+      });
   }, []);
+  
   return (
     <Search placeholder="搜索仓库" value={searchContext} onSearch={onSearch} onChange={onChange} />
   );

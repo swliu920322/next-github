@@ -32,6 +32,7 @@ app.prepare()
 
     koaRouter.get(/.*/, async (ctx) => {
       ctx.cookies.set('id', index);
+      // ctx.cookies.set('userInfo', ctx.session.userInfo);
       index += 1;
       ctx.respond = false;
       ctx.response.status = 200;

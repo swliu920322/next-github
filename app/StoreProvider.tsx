@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useRef } from 'react';
 import { Provider } from 'react-redux';
-import { makeStore, AppStore } from '@/lib/store';
+import { AppStore, makeStore } from '@/lib/store';
 import { setupListeners } from '@reduxjs/toolkit/query';
 
 export default function StoreProvider({ children }: {
@@ -16,8 +16,7 @@ export default function StoreProvider({ children }: {
     if (storeRef.current != null) {
       // configure listeners using the provided defaults
       // optional, but required for `refetchOnFocus`/`refetchOnReconnect` behaviors
-      const unsubscribe = setupListeners(storeRef.current!.dispatch);
-      return unsubscribe;
+      return setupListeners(storeRef.current!.dispatch);
     }
   }, []);
   

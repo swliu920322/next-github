@@ -1,7 +1,5 @@
-import Image from 'next/image';
 import { Button } from 'antd';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { Counter } from '@/components/counter/Counter';
 
 export default function Home() {

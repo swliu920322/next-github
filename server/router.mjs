@@ -7,16 +7,16 @@ koaRouter
     ctx.session = null;
     ctx.body = 'clear session success';
   })
-  // .get('/api/user/userInfo', async ctx => {
-  //   const user = ctx.session.userInfo;
-  //   if (!user) {
-  //     ctx.status = 401;
-  //     ctx.body = 'need login';
-  //   } else {
-  //     ctx.body = user;
-  //     ctx.set('Content-type', 'application/json');
-  //   }
-  // })
+  .get('/api/user/userInfo', async ctx => {
+    const user = ctx.session.userInfo;
+    if (!user) {
+      ctx.status = 401;
+      ctx.body = 'need login';
+    } else {
+      ctx.body = user;
+      ctx.set('Content-type', 'application/json');
+    }
+  })
   .post('/api/counter', async (ctx, next) => {
     console.log('ctx', ctx);
     ctx.respond = true;

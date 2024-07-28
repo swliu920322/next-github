@@ -22,6 +22,7 @@
     "koa-session": "^6.4.0",
     "koa-static": "^5.0.0",
     "next": "14.2.5",
+    "next-redux-wrapper": "^8.1.0",
     "prettier": "^3.3.3",
     "react": "^18",
     "react-dom": "^18",
