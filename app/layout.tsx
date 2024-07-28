@@ -8,6 +8,7 @@ import './globals.css';
 import { SearchBar } from '@/components/layout/SearchBar';
 import StoreProvider from '@/app/StoreProvider';
 import { HeaderAvatar } from '@/components/layout/Avatar';
+import Link from 'next/link';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -25,9 +26,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <AntdRegistry>
         <Layout className="h-screen">
           <Header className="flex justify-between items-center ">
-            <div className="flex gap-8">
+            <div className="flex gap-8 h-full">
               <div className="flex items-center">
-                <GithubOutlined className="text-3xl" style={{ color: 'white' }} />
+                <Link href="https://github.com/" className="h-full">
+                  <GithubOutlined className="text-3xl h-full" style={{ color: 'white' }} />
+                </Link>
               </div>
               <div className="h-full flex flex-col justify-center">
                 <SearchBar />
