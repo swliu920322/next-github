@@ -18,7 +18,6 @@ export default (server) => {
           headers: { Accept: 'application/json' },
         });
         if (result.status === 200) {
-          ctx.session.githubAuth = result.data;
           const { access_token, token_type } = result.data;
           const userInfoRes = await axios({
             method: 'POST',
@@ -27,6 +26,7 @@ export default (server) => {
               Authorization: `${token_type} ${access_token}`,
             },
           });
+          ctx.session.githubAuth = result.data;
           ctx.session.userInfo = userInfoRes.data;
           ctx.redirect('/');
         } else {
@@ -38,7 +38,17 @@ export default (server) => {
       }
     })
     .use(async (ctx, next) => {
+      if (ctx.path === '/logout' && ctx.method === 'POST') {
+        ctx.status = 200;
+        ctx.body = 'logout success';
+        ctx.session = null;
+      } else {
+        await next();
+      }
+    })
+    .use(async (ctx, next) => {
       ctx.req.session = ctx.session;
+      console.log(ctx.session);
       await next();
     });
 };

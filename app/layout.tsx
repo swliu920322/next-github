@@ -1,13 +1,13 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { AntdRegistry } from '@ant-design/nextjs-registry';
-import { Layout, Avatar } from 'antd';
+import { Layout } from 'antd';
 import { Content, Footer, Header } from 'antd/lib/layout/layout';
-import { GithubOutlined, UserOutlined } from '@ant-design/icons';
+import { GithubOutlined } from '@ant-design/icons';
 import './globals.css';
-import { SearchBar } from '@/components/SearchBar';
-import { Container } from '@/components/Container';
+import { SearchBar } from '@/components/layout/SearchBar';
 import StoreProvider from '@/app/StoreProvider';
+import { HeaderAvatar } from '@/components/layout/Avatar';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -33,14 +33,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                 <SearchBar />
               </div>
             </div>
-            <div className="py-8">
-              <Avatar size={64} icon={<UserOutlined />} />
+            <div className="py-4">
+              <HeaderAvatar />
             </div>
           </Header>
           <Content className="overflow-auto">
-            <Container>
-              {children}
-            </Container>
+            {children}
           </Content>
           <Footer>
             Developed by Max

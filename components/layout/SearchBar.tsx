@@ -6,6 +6,8 @@ import { useAppDispatch } from '@/lib/hooks';
 import { initial } from '@/lib/features/user/userSlice';
 
 export function SearchBar() {
+  const dispatch = useAppDispatch();
+  
   const [searchContext, setSearchContext] = useState('');
   const onChange = useCallback((e) => {
     setSearchContext(e.target.value);
@@ -13,7 +15,7 @@ export function SearchBar() {
   const onSearch = useCallback(() => {
     console.log('onSearch', searchContext);
   }, [searchContext]);
-  const dispatch = useAppDispatch();
+  
   useEffect(() => {
     axios.get('/api/user/userInfo')
       .then(resp => {
