@@ -28,7 +28,8 @@ export default (server) => {
           });
           ctx.session.githubAuth = result.data;
           ctx.session.userInfo = userInfoRes.data;
-          ctx.redirect('/');
+          console.log('urlBeforeOAuth', ctx.session.urlBeforeOAuth );
+          ctx.redirect(ctx.session.urlBeforeOAuth || '/');
         } else {
           const errorMsg = result.data && result.data.error;
           ctx.body = `request token failed ${errorMsg}`;
@@ -42,6 +43,17 @@ export default (server) => {
         ctx.status = 200;
         ctx.body = 'logout success';
         ctx.session = null;
+      } else {
+        await next();
+      }
+    })
+    .use(async (ctx, next) => {
+      if (ctx.path === '/prepare-auth' && ctx.method === 'GET') {
+        ctx.status = 200;
+        ctx.body = 'prepare success';
+        const { url } = ctx.query;
+        console.log(url);
+        ctx.session.urlBeforeOAuth = url || '/';
       } else {
         await next();
       }

@@ -1,5 +1,4 @@
 import { createAppSlice } from '@/lib/createAppSlice';
-import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { AppThunk } from '@/lib/store';
 
@@ -9,7 +8,7 @@ interface userSliceState {
 }
 
 const initialState = {
-  userInfo: {},
+  userInfo: null,
   isLogout: true,
 };
 export const userSlice = createAppSlice({

@@ -3,13 +3,13 @@ import { UserOutlined } from '@ant-design/icons';
 import { Avatar, Button, Popover } from 'antd';
 import { useAppSelector } from '@/lib/hooks';
 import { logoutFunc, selectUserInfo } from '@/lib/features/user/userSlice';
-
 import { useAppDispatch } from '@/lib/hooks';
-import Link from 'next/link';
+import { useDealLogin } from '@/lib/utils/Auth';
 
 export function HeaderAvatar() {
   const dispatch = useAppDispatch();
   const userInfo = useAppSelector(selectUserInfo);
+  const { login } = useDealLogin();
   if (userInfo) {
     const content = (
       <div>
@@ -23,7 +23,7 @@ export function HeaderAvatar() {
     );
   }
   const loginContent = (
-    <Link href={process.env.OAUTH_URL}>点击登录</Link>
+    <div onClick={login}>点击登录</div>
   );
   return (
     <Popover content={loginContent}>
