@@ -5,11 +5,19 @@ import { useAppSelector } from '@/lib/hooks';
 import { logoutFunc, selectUserInfo } from '@/lib/features/user/userSlice';
 import { useAppDispatch } from '@/lib/hooks';
 import { useDealLogin } from '@/lib/utils/Auth';
+import { useEffect } from 'react';
+import axios from 'axios';
 
 export function HeaderAvatar() {
   const dispatch = useAppDispatch();
   const userInfo = useAppSelector(selectUserInfo);
   const { login } = useDealLogin();
+  useEffect(() => {
+    axios.get('/github/search/repositories?q=react')
+      .then((resp) => {
+        console.log(resp);
+      });
+  }, []);
   if (userInfo) {
     const content = (
       <div>

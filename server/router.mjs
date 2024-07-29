@@ -18,7 +18,6 @@ koaRouter
     }
   })
   .post('/api/counter', async (ctx, next) => {
-    console.log('ctx', ctx);
     ctx.respond = true;
     ctx.body = { data: 2 };
     ctx.respondType = 'application/json';

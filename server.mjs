@@ -6,6 +6,7 @@ import Redis from 'ioredis';
 
 import koaRouter from './server/router.mjs';
 import authServer from './server/auth.mjs';
+import apiServer from './server/api.mjs';
 
 const dev = process.env.NODE_ENV !== 'production';
 
@@ -29,12 +30,7 @@ app.prepare()
       store: new RedisSessionStore(redis),
     };
 
-    server
-      .use(Session(SESSION_CONFIG, server))
-      .use(async (ctx, next) => {
-        console.log('session is:', ctx.session);
-        await next();
-      })
+
 
     koaRouter.get(/.*/, async (ctx) => {
       ctx.cookies.set('id', index);
@@ -45,7 +41,13 @@ app.prepare()
     });
 
     authServer(server);
+    apiServer(server);
     server
+      .use(Session(SESSION_CONFIG, server))
+      // .use(async (ctx, next) => {
+      //   console.log('session is:', ctx.session);
+      //   await next();
+      // })
       .use(cors({ origin: '*' }))
       .use(koaRouter.routes())
       .use(koaRouter.allowedMethods())
