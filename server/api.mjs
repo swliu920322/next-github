@@ -15,8 +15,9 @@ export default (server) => {
         headers['Authorization'] = `${token_type} ${access_token}`;
       }
       ctx.set('Content-type', 'application/json');
+      console.log(ctx.request.body);
       try {
-        const resp = await requestGithub('GET', githubPath, headers);
+        const resp = await requestGithub('GET', githubPath, ctx.request.body || {},  headers);
         if (resp.status === 200) {
           ctx.body = resp.data;
         } else {

@@ -2,11 +2,6 @@ import Router from 'koa-router';
 
 const koaRouter = new Router();
 koaRouter
-  // .get('/delete/user', async (ctx) => {
-  //   // koa-session会自动destroy所有session
-  //   ctx.session = null;
-  //   ctx.body = 'clear session success';
-  // })
   .get('/api/user/userInfo', async ctx => {
     const user = ctx.session.userInfo;
     if (!user) {

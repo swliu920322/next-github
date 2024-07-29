@@ -2,6 +2,7 @@ import Koa from 'koa';
 import Session from 'koa-session';
 import next from 'next';
 import cors from '@koa/cors';
+import { koaBody } from 'koa-body';
 import Redis from 'ioredis';
 
 import koaRouter from './server/router.mjs';
@@ -24,13 +25,13 @@ app.prepare()
   .then(() => {
     const server = new Koa();
     server.keys = ['Max develop Github App'];
-
     const SESSION_CONFIG = {
       key: 'mid',
       store: new RedisSessionStore(redis),
     };
 
     server
+      .use(koaBody())
       .use(Session(SESSION_CONFIG, server))
       .use(async (ctx, next) => {
         ctx.req.session = ctx.session;

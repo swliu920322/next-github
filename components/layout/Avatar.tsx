@@ -18,7 +18,7 @@ export function HeaderAvatar() {
     //   .then((resp) => {
     //     console.log(resp);
     //   });
-    request({url:'/search/repositories?q=react'})
+    request({ url: '/search/repositories?q=react' });
   }, []);
   if (userInfo) {
     const content = (
