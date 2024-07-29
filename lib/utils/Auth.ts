@@ -17,7 +17,6 @@ export function useDealLogin() {
         } else {
           console.log('prepare auth failed', resp);
         }
-      
       });
   }, []);
   return {

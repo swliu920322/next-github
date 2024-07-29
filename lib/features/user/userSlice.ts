@@ -5,11 +5,13 @@ import { AppThunk } from '@/lib/store';
 interface userSliceState {
   userInfo: Object;
   isLogout: boolean;
+  ready: boolean;
 }
 
-const initialState = {
+const initialState: userSliceState = {
   userInfo: null,
   isLogout: true,
+  ready: false,
 };
 export const userSlice = createAppSlice({
   name: 'userInfo',
@@ -19,6 +21,7 @@ export const userSlice = createAppSlice({
       initial(state: userSliceState, action) {
         state.userInfo = action?.payload;
         state.isLogout = false;
+        state.ready = true;
       },
       // initial: create.reducer((state: userSliceState, action) => {
       //   console.log(action?.payload);
@@ -32,13 +35,14 @@ export const userSlice = createAppSlice({
   },
   selectors: {
     selectUserInfo: state => state.userInfo,
+    selectReady: state => state.ready
   },
 });
 
 export const { initial, logout } =
   userSlice.actions;
 
-export const { selectUserInfo } = userSlice.selectors;
+export const { selectUserInfo, selectReady } = userSlice.selectors;
 
 export const logoutFunc = (): AppThunk =>
   async (dispatch, getState) => {
