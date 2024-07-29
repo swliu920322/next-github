@@ -59,9 +59,4 @@ export default (server) => {
         await next();
       }
     })
-    .use(async (ctx, next) => {
-      ctx.req.session = ctx.session;
-      console.log(ctx.session);
-      await next();
-    });
 };

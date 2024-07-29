@@ -30,7 +30,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <Header className="flex justify-between items-center ">
             <div className="flex gap-8 h-full">
               <div className="flex items-center">
-                <Link href="https://github.com/" className="h-full">
+                <Link href="/" className="h-full">
                   <GithubOutlined className="text-3xl h-full" style={{ color: 'white' }} />
                 </Link>
               </div>

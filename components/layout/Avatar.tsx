@@ -7,16 +7,18 @@ import { useAppDispatch } from '@/lib/hooks';
 import { useDealLogin } from '@/lib/utils/Auth';
 import { useEffect } from 'react';
 import axios from 'axios';
+import { request } from '@/server/apiAgent.mjs';
 
 export function HeaderAvatar() {
   const dispatch = useAppDispatch();
   const userInfo = useAppSelector(selectUserInfo);
   const { login } = useDealLogin();
   useEffect(() => {
-    axios.get('/github/search/repositories?q=react')
-      .then((resp) => {
-        console.log(resp);
-      });
+    // axios.get('/github/search/repositories?q=react')
+    //   .then((resp) => {
+    //     console.log(resp);
+    //   });
+    request({url:'/search/repositories?q=react'})
   }, []);
   if (userInfo) {
     const content = (

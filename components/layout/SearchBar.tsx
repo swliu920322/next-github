@@ -4,16 +4,17 @@ import Search from 'antd/lib/input/Search';
 import axios from 'axios';
 import { useAppDispatch } from '@/lib/hooks';
 import { initial } from '@/lib/features/user/userSlice';
+import { useRouter } from 'next/navigation';
 
 export function SearchBar() {
   const dispatch = useAppDispatch();
-  
+  const router = useRouter();
   const [searchContext, setSearchContext] = useState('');
   const onChange = useCallback((e) => {
     setSearchContext(e.target.value);
   }, []);
   const onSearch = useCallback(() => {
-    console.log('onSearch', searchContext);
+    router.push(`/search?query=${searchContext}`);
   }, [searchContext]);
   
   useEffect(() => {

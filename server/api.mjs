@@ -1,13 +1,13 @@
 import axios from 'axios';
+import { requestGithub } from './apiAgent.mjs';
 
-const github_base_url = 'https://api.github.com';
+// const github_base_url = 'https://api.github.com';
 export default (server) => {
   server.use(async (ctx, next) => {
     const { path } = ctx;
-    console.log('path', path);
     if (path.startsWith('/github/')) {
       const githubAuth = ctx.session.githubAuth;
-      const githubPath = `${github_base_url}${ctx.url.replace('/github/', '/')}`;
+      const githubPath = `${ctx.url.replace('/github/', '/')}`;
       const token = githubAuth && githubAuth.access_token;
       let headers = {};
       if (token) {
@@ -16,11 +16,7 @@ export default (server) => {
       }
       ctx.set('Content-type', 'application/json');
       try {
-        const resp = await axios({
-          method: 'GET',
-          url: githubPath,
-          headers
-        });
+        const resp = await requestGithub('GET', githubPath, headers);
         if (resp.status === 200) {
           ctx.body = resp.data;
         } else {
