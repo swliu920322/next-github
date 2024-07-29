@@ -23,7 +23,7 @@ export function HeaderAvatar() {
     );
   }
   const loginContent = (
-    <div onClick={login}>点击登录</div>
+    <div className="cursor-pointer" onClick={login}>点击登录</div>
   );
   return (
     <Popover content={loginContent}>

@@ -11,12 +11,14 @@ export default (server) => {
           ctx.body = 'code not exist';
           return;
         }
+        console.log('before getAccess');
         const result = await axios({
           method: 'POST',
           url: gitAccess,
           data: { client_id, client_secret, code },
           headers: { Accept: 'application/json' },
         });
+        console.log('after getAccess');
         if (result.status === 200) {
           const { access_token, token_type } = result.data;
           const userInfoRes = await axios({
@@ -26,9 +28,9 @@ export default (server) => {
               Authorization: `${token_type} ${access_token}`,
             },
           });
+          console.log('After get userInfo');
           ctx.session.githubAuth = result.data;
           ctx.session.userInfo = userInfoRes.data;
-          console.log('urlBeforeOAuth', ctx.session.urlBeforeOAuth );
           ctx.redirect(ctx.session.urlBeforeOAuth || '/');
         } else {
           const errorMsg = result.data && result.data.error;
@@ -52,7 +54,6 @@ export default (server) => {
         ctx.status = 200;
         ctx.body = 'prepare success';
         const { url } = ctx.query;
-        console.log(url);
         ctx.session.urlBeforeOAuth = url || '/';
       } else {
         await next();

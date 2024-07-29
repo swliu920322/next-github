@@ -1,23 +1,26 @@
-import { useRouter, usePathname } from 'next/navigation';
 import axios from 'axios';
+import { useCallback } from 'react';
 
 export function useDealLogin() {
-  const router = useRouter();
-  // router.push(process.env.OAUTH_URL);
-  const pathname = usePathname();
-  let url = `/prepare-auth`
-  return {
-    login: () => {
-      console.log('pathname', pathname);
-      if(pathname) {
-        url += `?url=${pathname}`
-      }
-      console.log('url', url);
-      axios.get(url)
-        .then(() => {
-          console.log('then');
-          router.push(process.env.OAUTH_URL);
-        })
+  const login = useCallback(() => {
+    let url = `/prepare-auth`;
+    const pathname = location.pathname;
+    console.log('pathname', pathname);
+    if (pathname) {
+      url += `?url=${pathname}`;
     }
+    console.log('url', url);
+    axios.get(url)
+      .then((resp) => {
+        if (resp.status === 200) {
+          location.href = process.env.OAUTH_URL;
+        } else {
+          console.log('prepare auth failed', resp);
+        }
+      
+      });
+  }, []);
+  return {
+    login,
   };
 }
