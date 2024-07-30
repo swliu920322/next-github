@@ -19,8 +19,10 @@ export const userSlice = createAppSlice({
   reducers: (create) => {
     return {
       initial(state: userSliceState, action) {
-        state.userInfo = action?.payload;
-        state.isLogout = false;
+        if (action?.payload) {
+          state.userInfo = action.payload;
+          state.isLogout = true;
+        }
         state.ready = true;
       },
       // initial: create.reducer((state: userSliceState, action) => {
@@ -35,7 +37,7 @@ export const userSlice = createAppSlice({
   },
   selectors: {
     selectUserInfo: state => state.userInfo,
-    selectReady: state => state.ready
+    selectReady: state => state.ready,
   },
 });
 

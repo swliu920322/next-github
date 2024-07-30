@@ -21,7 +21,10 @@ export function SearchBar() {
     axios.get('/api/user/userInfo')
       .then(resp => {
         dispatch(initial(resp.data));
-      });
+      }).catch(resp => {
+        dispatch(initial());
+      },
+    );
   }, []);
   
   return (
