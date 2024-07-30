@@ -8,7 +8,7 @@ export function PageLoading() {
   const isReady = useAppSelector(selectReady);
   return (
     isReady ? null :
-      <div className="h-full w-full fixed left-0 top-0 flex justify-center items-center z-10">
+      <div className="h-full w-full fixed left-0 top-0 flex justify-center items-center z-10 bg-slate-400/75">
         <Spin />
       </div>
   );

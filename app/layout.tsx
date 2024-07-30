@@ -42,7 +42,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               <HeaderAvatar />
             </div>
           </Header>
-          <Content className="overflow-auto">
+          <Content className="overflow-auto bg-white">
             {children}
           </Content>
           <Footer>
