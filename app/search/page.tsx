@@ -25,7 +25,7 @@ const SORT_TYPES = [
   { name: 'Fewest forks', value: 'forks', order: 'asc' },
 ];
 export default function Search({ searchParams }) {
-  const [result, setRes] = useState({});
+  const [result, setRes] = useState({ items: [] });
   const router = useRouter();
   useEffect(() => {
     getData(searchParams).then(res => {
@@ -36,13 +36,21 @@ export default function Search({ searchParams }) {
   function handleLanguage(item) {
     const queryStr = getQueryStr({ ...searchParams, language: item });
     router.push(`/search${queryStr}`);
-    setRes({});
+    setRes({ items: [] });
   }
   
   function handleOrder(item) {
     const queryStr = getQueryStr({ ...searchParams, sort: item.value, order: item.order });
     router.push(`/search${queryStr}`);
-    setRes({});
+    setRes({ items: [] });
+  }
+  
+  function dealSort(item) {
+    const { sort, order } = searchParams;
+    if (item.value) {
+      return item.value === sort && item.order === order;
+    }
+    return !item.value && !sort;
   }
   
   return (
@@ -53,7 +61,9 @@ export default function Search({ searchParams }) {
           bordered
           dataSource={languages}
           renderItem={(item) =>
-            <Item className="cursor-pointer" onClick={() => handleLanguage(item)}>
+            <Item
+              className={`cursor-pointer ${item === searchParams.language && 'border-l-2 border-blue-400 active-item'}`}
+              onClick={() => item !== searchParams.language && handleLanguage(item)}>
               {item}
             </Item>
           }
@@ -63,7 +73,8 @@ export default function Search({ searchParams }) {
           bordered
           dataSource={SORT_TYPES}
           renderItem={(item) =>
-            <Item className="cursor-pointer" onClick={() => handleOrder(item)}>
+            <Item className={`cursor-pointer ${dealSort(item) && 'border-l-2 border-blue-400 active-item'}`}
+                  onClick={() => !dealSort(item) && handleOrder(item)}>
               {item.name}
             </Item>
           }
