@@ -9,10 +9,11 @@ const IconFont = createFromIconfontCN({
     '/static/svg/iconfont.js',
   ],
 });
-export function UserInfo({userInfo}) {
+
+export function UserInfo({ userInfo }) {
   return (
     <div className="flex flex-col gap-1">
-      <img src={userInfo.avatar_url} className="w-60 rounded-full" alt="user avatar" />
+      {userInfo?.avatar_url && <img src={userInfo?.avatar_url} className="w-60 rounded-full" alt="user avatar" />}
       <span className="text-3xl font-bold">{userInfo.name}</span>
       <span>{userInfo.login}</span>
       <span>{userInfo.bio}</span>
@@ -22,5 +23,5 @@ export function UserInfo({userInfo}) {
         <a href={`mailto:${userInfo.email}`}>{userInfo.email}</a>
       </p>
     </div>
-  )
+  );
 }

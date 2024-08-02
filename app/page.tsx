@@ -9,7 +9,7 @@ import { request } from '@/server/apiAgent.mjs';
 import { RepoItem } from '@/components/index/RepoItem';
 import { UserInfo } from '@/components/index/userInfo';
 import { useSearchParams, useRouter } from 'next/navigation';
-
+// TODO 做服务端缓存，暂时不知道怎么做，这个只是client的
 export default function Home() {
   const userInfo = useAppSelector(selectUserInfo);
   const router = useRouter();
@@ -44,11 +44,11 @@ export default function Home() {
     return {
       key: index + '',
       label: i.label,
-      children: (
+      children: i.data?.length ? (
         <div className="flex h-full flex-col gap-3 border-slate-500 border-t overflow-auto">
           {i.data.map(item => <RepoItem key={item.id} item={item} />)}
         </div>
-      ),
+      ): null,
     };
   });
   if (!userInfo) {

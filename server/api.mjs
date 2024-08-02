@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { requestGithub } from './apiAgent.mjs';
 
 // const github_base_url = 'https://api.github.com';
@@ -15,24 +14,17 @@ export default (server) => {
         headers['Authorization'] = `${token_type} ${access_token}`;
       }
       ctx.set('Content-type', 'application/json');
-      console.log(ctx.request.body);
       try {
-        const resp = await requestGithub('GET', githubPath, ctx.request.body || {},  headers);
-        if (resp.status === 200) {
-          ctx.body = resp.data;
-        } else {
-          ctx.status = resp.status;
-          ctx.body = {
-            success: false,
-          };
-        }
+        console.log({ githubPath, headers });
+        const resp = await requestGithub('GET', githubPath, ctx.request.body || {}, headers);
+        console.log(resp.status);
+        ctx.status = resp.status;
+        ctx.body = resp.status === 200 ? resp.data : [];
       } catch (err) {
         console.log(err);
-        ctx.body = {
-          success: false,
-        };
+        ctx.status = 500;
+        ctx.body = [];
       }
-
     } else {
       await next();
     }
