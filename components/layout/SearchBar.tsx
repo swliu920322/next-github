@@ -4,7 +4,7 @@ import Search from 'antd/lib/input/Search';
 import axios from 'axios';
 import { useAppDispatch } from '@/lib/hooks';
 import { initial } from '@/lib/features/user/userSlice';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export function SearchBar() {
   const dispatch = useAppDispatch();
@@ -17,7 +17,7 @@ export function SearchBar() {
     router.push(`/search?query=${searchContext}`);
   }, [searchContext]);
   
-  useEffect(() => {
+  function getUserInfo() {
     axios.get('/api/user/userInfo')
       .then(resp => {
         dispatch(initial(resp.data));
@@ -25,6 +25,19 @@ export function SearchBar() {
         dispatch(initial());
       },
     );
+  }
+  
+  const searchParams = useSearchParams();
+  function getSearchContent() {
+    const content = searchParams.get('query');
+    if(content) {
+      setSearchContext(content)
+    }
+  }
+  
+  useEffect(() => {
+    getUserInfo();
+    getSearchContent();
   }, []);
   
   return (
