@@ -1,53 +1,16 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { request } from '@/server/apiAgent.mjs';
-import { List } from 'antd';
+import { List, Spin } from 'antd';
 import Item from 'antd/lib/list/Item';
 import { RepoItem } from '@/components/index/RepoItem';
 import { useRouter } from 'next/navigation';
+import { getQueryStr } from '@/lib/utils/dealPathname';
 
-function dealCode(str = '') {
-  if (str.includes('?')) {
-    return '&';
-  }
-  return '?';
-}
-
-//  获取路由接口
-function getQueryStr(item: Record<string, string>, replaceFunc = i => i) {
-  console.log('getQueryStr', item);
-  const { query, language, sort, order = 'desc', page } = item;
-  let queryStr = '';
-  if (query) {
-    const queryArr = query.split(' ');
-    if (queryArr.length > 1) {
-      queryStr += `?${replaceFunc('q')}=${queryArr[0]}`;
-      if (language) {
-        queryStr += `+language:${language}`;
-      } else {
-        const lang = queryArr[1].split(':');
-        if (lang.length > 1) {
-          queryStr += `+language:${lang[1]}`;
-        }
-      }
-      
-    } else {
-      queryStr += `?${replaceFunc('q')}=${query}`;
-      if (language) queryStr += `+language:${language}`;
-    }
-  } else {
-    queryStr += `?q=`;
-  }
-  if (sort) queryStr += `${dealCode(queryStr)}sort=${sort}`;
-  if (order) queryStr += `${dealCode(queryStr)}order=${order}`;
-  if (page) queryStr += `${dealCode(queryStr)}page=${page}`;
-  return queryStr;
-}
 
 // 查询接口，需要处理一些字段
-function getData({ query, language, sort, order = 'desc', page }) {
+function getData({ query, language, sort, order, page }) {
   const queryStr = getQueryStr({ query, language, sort, order, page });
-  console.log('queryStr', queryStr);
   return request({ url: `/search/repositories${queryStr}` }).then(res => {
     return res?.data || [];
   });
@@ -62,33 +25,29 @@ const SORT_TYPES = [
   { name: 'Fewest forks', value: 'forks', order: 'asc' },
 ];
 export default function Search({ searchParams }) {
-  
   const [result, setRes] = useState({});
   const router = useRouter();
   useEffect(() => {
-    console.log(searchParams, 'useEffect');
     getData(searchParams).then(res => {
       setRes(res);
     });
   }, [searchParams]);
   
   function handleLanguage(item) {
-    console.log('handleLanguage', item);
-    const { query, ...extra } = searchParams;
-    const queryStr = getQueryStr({ ...extra, query, language: item }, () => 'query');
+    const queryStr = getQueryStr({ ...searchParams, language: item }, () => 'query');
     router.push(`/search${queryStr}`);
+    setRes({});
   }
   
   function handleOrder(item) {
-    console.log('handleOrder', item);
-    const { query, ...extra } = searchParams;
-    const queryStr = getQueryStr({ ...extra, query, sort: item.value, order: item.order }, () => 'query');
+    const queryStr = getQueryStr({ ...searchParams, sort: item.value, order: item.order }, () => 'query');
     router.push(`/search${queryStr}`);
+    setRes({});
   }
   
   return (
-    <div className="flex p-4 overflow-hidden">
-      <div className="flex w-40 flex-col">
+    <div className="flex p-4 overflow-hidden h-full">
+      <div className="flex w-40 flex-col overflow-auto h-full">
         <List
           header={<span>语言</span>}
           bordered
@@ -110,9 +69,15 @@ export default function Search({ searchParams }) {
           }
         />
       </div>
-      <div className="flex-1 ml-4 overflow-hidden">
+      <div className="flex-1 ml-4 overflow-hidden h-full">
         <div className="flex h-full flex-col gap-3 border-slate-500 border-t overflow-auto">
-          {result?.items?.map(item => <RepoItem key={item.id} item={item} />)}
+          {
+            result?.items ?
+              result?.items?.map(item => <RepoItem key={item.id} item={item} />) :
+              <div className="w-full h-full flex justify-center items-center">
+                <Spin />
+              </div>
+          }
         </div>
       </div>
     </div>

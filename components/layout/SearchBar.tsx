@@ -28,10 +28,14 @@ export function SearchBar() {
   }
   
   const searchParams = useSearchParams();
+  
   function getSearchContent() {
     const content = searchParams.get('query');
-    if(content) {
-      setSearchContext(content)
+    
+    
+    if (content) {
+      const arr = content.split(' ');
+      setSearchContext(arr.length > 1 ? arr[0] : content);
     }
   }
   
