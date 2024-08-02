@@ -31,11 +31,8 @@ export function SearchBar() {
   
   function getSearchContent() {
     const content = searchParams.get('query');
-    
-    
     if (content) {
-      const arr = content.split(' ');
-      setSearchContext(arr.length > 1 ? arr[0] : content);
+      setSearchContext(content);
     }
   }
   

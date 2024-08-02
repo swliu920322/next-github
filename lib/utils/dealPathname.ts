@@ -3,28 +3,13 @@ function dealCode(str = '') {
 }
 
 //  获取路由接口
-export function getQueryStr(item: Record<string, string>, replaceFunc = i => i) {
+//  url上一直都是 ?a=b&b=c...
+//  重新设计，只有提交api的时候进行query => q, &language= => +language:
+export function getQueryStr(item: Record<string, string>, isRequest = false) {
   const { query, language, sort, order = 'desc', page } = item;
-  let queryStr = '';
-  if (query) {
-    const queryArr = query.split(' ');
-    if (queryArr.length > 1) {
-      queryStr += `?${replaceFunc('q')}=${queryArr[0]}`;
-      if (language) {
-        queryStr += `+language:${language}`;
-      } else {
-        const lang = queryArr[1].split(':');
-        if (lang.length > 1) {
-          queryStr += `+language:${lang[1]}`;
-        }
-      }
-      
-    } else {
-      queryStr += `?${replaceFunc('q')}=${query}`;
-      if (language) queryStr += `+language:${language}`;
-    }
-  } else {
-    queryStr += `?q=`;
+  let queryStr = `?${isRequest ? 'q' : 'query'}=${query}`;
+  if (language) {
+    queryStr += `${isRequest ? '+' : '&'}language${isRequest ? ':' : '='}${language}`;
   }
   if (sort) queryStr += `${dealCode(queryStr)}sort=${sort}`;
   if (order) queryStr += `${dealCode(queryStr)}order=${order}`;

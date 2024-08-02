@@ -10,7 +10,7 @@ import { getQueryStr } from '@/lib/utils/dealPathname';
 
 // 查询接口，需要处理一些字段
 function getData({ query, language, sort, order, page }) {
-  const queryStr = getQueryStr({ query, language, sort, order, page });
+  const queryStr = getQueryStr({ query, language, sort, order, page }, true);
   return request({ url: `/search/repositories${queryStr}` }).then(res => {
     return res?.data || [];
   });
@@ -34,13 +34,13 @@ export default function Search({ searchParams }) {
   }, [searchParams]);
   
   function handleLanguage(item) {
-    const queryStr = getQueryStr({ ...searchParams, language: item }, () => 'query');
+    const queryStr = getQueryStr({ ...searchParams, language: item });
     router.push(`/search${queryStr}`);
     setRes({});
   }
   
   function handleOrder(item) {
-    const queryStr = getQueryStr({ ...searchParams, sort: item.value, order: item.order }, () => 'query');
+    const queryStr = getQueryStr({ ...searchParams, sort: item.value, order: item.order });
     router.push(`/search${queryStr}`);
     setRes({});
   }
