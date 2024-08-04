@@ -45,8 +45,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <Content className="overflow-auto bg-white">
             {children}
           </Content>
-          <Footer>
-            Developed by Max
+          <Footer className="flex justify-center">
+            Developed by
+            <Link href="https://github.com/swliu920322">Max</Link>
           </Footer>
         </Layout>
       </AntdRegistry>
