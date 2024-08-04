@@ -8,8 +8,8 @@ import { useRouter } from 'next/navigation';
 import { getQueryStr } from '@/lib/utils/dealPathname';
 
 // 查询接口，需要处理一些字段
-function getData({ query, language, sort, order, page = 10 }) {
-  const queryStr = getQueryStr({ query, language, sort, order, page }, true);
+function getData({ query, language, sort, order, page = 1, per_page = 10 }) {
+  const queryStr = getQueryStr({ query, language, sort, order, page, per_page }, true);
   return request({ url: `/search/repositories${queryStr}` }).then((res) => {
     return res?.data || [];
   });
@@ -59,8 +59,9 @@ export default function Search({ searchParams }) {
     return !item.value && !sort;
   }
 
-  function pageChange(page: Number) {
-    const queryStr = getQueryStr({ ...searchParams, page });
+  function pageChange(page: Number, per_page: Number = 10) {
+    console.log('pageChange');
+    const queryStr = getQueryStr({ ...searchParams, page, per_page });
     router.push(`/search${queryStr}`);
   }
 
@@ -96,7 +97,7 @@ export default function Search({ searchParams }) {
           </div>
         )}
         <div className="mt-2 self-center">
-          <Pagination pageSize={10} showSizeChanger={false} current={Number(searchParams.page) || 1} total={result?.total_count || 0} onChange={pageChange} />
+          <Pagination pageSize={Number(searchParams.per_page) || 10} current={Number(searchParams.page) || 1} total={result?.total_count || 0} onChange={pageChange} />
         </div>
       </div>
     </div>
