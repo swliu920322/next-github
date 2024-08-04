@@ -97,7 +97,8 @@ export default function Search({ searchParams }) {
           </div>
         )}
         <div className="mt-2 self-center">
-          <Pagination pageSize={Number(searchParams.per_page) || 10} current={Number(searchParams.page) || 1} total={result?.total_count || 0} onChange={pageChange} />
+          {/* 修复github最大返回数量大于1000的问题*/}
+          <Pagination pageSize={Number(searchParams.per_page) || 10} current={Number(searchParams.page) || 1} total={Math.min(result?.total_count || 0, 1000)} onChange={pageChange} />
         </div>
       </div>
     </div>
