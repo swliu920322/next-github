@@ -3,17 +3,9 @@ import { CompRepo } from './comp-repo';
 
 export default function DetailLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <div>
+    <div className="h-full flex flex-col overflow-hidden">
       <CompRepo />
-      <div className="flex gap-2">
-        <Link className="p-2" href={`/detail`}>
-          Detail
-        </Link>
-        <Link className="p-2" href={`/detail/issues`}>
-          Issues
-        </Link>
-      </div>
-      <div>{children}</div>
+      <div className="flex-1 overflow-auto">{children}</div>
     </div>
   );
 }

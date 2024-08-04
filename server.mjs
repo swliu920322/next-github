@@ -8,7 +8,10 @@ import Redis from 'ioredis';
 import koaRouter from './server/router.mjs';
 import authServer from './server/auth.mjs';
 import apiServer from './server/api.mjs';
-
+// 服务端渲染找不到atob，但是我在client里使用了，之后可能为了性能改回服务端
+// import atob from 'atob';
+//
+// global.atob = atob;
 const dev = process.env.NODE_ENV !== 'production';
 
 
@@ -37,7 +40,7 @@ app.prepare()
         ctx.req.session = ctx.session;
         // console.log('session is:', ctx.session);
         await next();
-      })
+      });
 
     koaRouter.get(/.*/, async (ctx) => {
       ctx.cookies.set('id', index);

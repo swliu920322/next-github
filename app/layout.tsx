@@ -47,7 +47,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           </Content>
           <Footer className="flex justify-center">
             Developed by
-            <Link href="https://github.com/swliu920322">Max</Link>
+            <Link href="https://github.com/swliu920322" className="ml-2">Max</Link>
           </Footer>
         </Layout>
       </AntdRegistry>
