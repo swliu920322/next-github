@@ -14,7 +14,6 @@ export default function Page() {
 
   const [readme, setReadme] = useState('');
   useEffect(() => {
-    console.log('useEffect');
     request({ url: `/repos/${owner}/${name}/readme` }).then((resp) => {
       setReadme(md.render(atob(resp.data.content)));
     });
