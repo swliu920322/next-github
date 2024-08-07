@@ -24,8 +24,8 @@ export default function Page() {
 
   return (
     <div className="p-4 markdown-body overflow-auto">
-      {/*<div dangerouslySetInnerHTML={{ __html: readme }}></div>*/}
-      <MDXRemote source={readme} />
+      <div dangerouslySetInnerHTML={{ __html: readme }}></div>
+      {/*<MDXRemote source={readme} />*/}
     </div>
   );
 }
