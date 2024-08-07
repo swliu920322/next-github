@@ -1,7 +1,12 @@
 /** @type {import('next').NextConfig} */
-import { config } from './config.mjs'
+import { config } from './config.mjs';
+import bundleAnalyzer from '@next/bundle-analyzer';
+
 const GITHUB_OAUTH_URL = 'https://github.com/login/oauth/authorize';
-const scope = 'user'
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === 'true',
+});
+const scope = 'user';
 const nextConfig = {
   // generateEtags: true,
   // onDemandEntries: {
@@ -10,9 +15,9 @@ const nextConfig = {
   // },
   env: {
     GITHUB_OAUTH_URL,
-    OAUTH_URL:  `${GITHUB_OAUTH_URL}?client_id=${config.github.client_id}&scope=${scope}`,
+    OAUTH_URL: `${GITHUB_OAUTH_URL}?client_id=${config.github.client_id}&scope=${scope}`,
     customKey: 'my-value',
   },
 };
 
-export default nextConfig;
+export default withBundleAnalyzer(nextConfig);

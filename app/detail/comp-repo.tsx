@@ -25,7 +25,7 @@ export function CompRepo() {
   return (
     <div className="p-4">
       <div className="flex items-center">
-        <img className="rounded-full w-10" src={repoInfo.owner?.avatar_url || ''} />
+        <img className="rounded-full w-10" src={repoInfo?.owner?.avatar_url || ''} />
         <span className="ml-2">{repoInfo.full_name}</span>
         <span className="ml-2 p-0.5 px-2 rounded-2xl border">{repoInfo.private ? 'private' : 'public'}</span>
         <div className="ml-9">

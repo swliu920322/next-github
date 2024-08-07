@@ -3,9 +3,12 @@ import { useEffect, useState } from 'react';
 import { request } from '@/server/apiAgent.mjs';
 import { List, Spin, Pagination } from 'antd';
 import Item from 'antd/lib/list/Item';
-import { RepoItem } from '@/components/index/RepoItem';
+// import { RepoItem } from '';
 import { useRouter } from 'next/navigation';
 import { getQueryStr } from '@/lib/utils/dealPathname';
+import dynamic from 'next/dynamic';
+
+const RepoItem = dynamic(() => import('../../components/index/RepoItem'));
 
 // 查询接口，需要处理一些字段
 function getData({ query, language, sort, order, page = 1, per_page = 10 }) {
