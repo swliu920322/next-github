@@ -12,7 +12,13 @@ export function CompRepo() {
   const owner = searchParams.get('owner');
   const name = searchParams.get('name');
   const [repoInfo, setRepoInfo] = useState({
-    owner: {},
+    owner: {
+      avatar_url: ''
+    },
+    full_name: '',
+    private: '',
+    stargazers_count: 0,
+    description: ''
   });
   useEffect(() => {
     request({ url: `/repos/${owner}/${name}` }).then((resp) => {
