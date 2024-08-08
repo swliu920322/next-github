@@ -5,19 +5,18 @@ import { useEffect, useState } from 'react';
 import { request } from '@/server/apiAgent.mjs';
 import { CompIssues } from '@/app/detail/issues/comp-issues';
 
-
 export default function Page() {
   const searchParams = useSearchParams();
   const owner = searchParams.get('owner');
   const name = searchParams.get('name');
-  const [issues, setIssues] = useState([])
-  const [labels, setLabels] = useState([])
+  const [issues, setIssues] = useState([]);
+  const [labels, setLabels] = useState([]);
   useEffect(() => {
     request({ url: `/repos/${owner}/${name}/issues` }).then((resp) => {
-      console.log(resp.data);
+      setIssues(resp.data);
     });
     request({ url: `/repos/${owner}/${name}/labels` }).then((resp) => {
-      console.log(resp.data);
+      setLabels(resp.data);
     });
   }, [owner, name]);
   return (
