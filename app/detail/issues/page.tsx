@@ -3,6 +3,8 @@
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { request } from '@/server/apiAgent.mjs';
+import { CompIssues } from '@/app/detail/issues/comp-issues';
+
 
 export default function Page() {
   const searchParams = useSearchParams();
@@ -18,5 +20,9 @@ export default function Page() {
       console.log(resp.data);
     });
   }, [owner, name]);
-  return <div>issue</div>;
+  return (
+    <div>
+      <CompIssues issues={issues} />
+    </div>
+  );
 }
