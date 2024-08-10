@@ -4,7 +4,6 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "dev:node": "redis-server & node server.mjs",
     "build": "next build",
     "build:analysis": "ANALYZE=true next build",
     "start": "next start",
