@@ -9,7 +9,7 @@ This project has two versions.
 
 ### nextjs(App Router) + KOA + redis
 
-This is the origin version I followed with the resouces in the past.
+This is the origin version I followed with the resources in the past.
 
 ### nextjs(App Router)
 
@@ -24,7 +24,7 @@ koa use as the server to connect with redis, it can store
 First, run the development server:
 
 ```bash
-pnpm dev:node // use KOA in the master branch
-pnpm dev // default in the newWay branch
+pnpm dev:node // use KOA in the koa branch
+pnpm dev // default in the master branch
 
 ```

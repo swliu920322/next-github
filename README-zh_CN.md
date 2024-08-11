@@ -41,5 +41,5 @@ pnpm dev:node
 ### 纯Nextjs
 
 ```bash
-pnpm dev // default in the newWay branch
+pnpm dev //  master branch
 ```
