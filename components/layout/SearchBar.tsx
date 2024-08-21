@@ -36,10 +36,10 @@ export function SearchBar() {
     }
   }
   
-  useEffect(() => {
-    getUserInfo();
-    getSearchContent();
-  }, []);
+  // useEffect(() => {
+  //   getUserInfo();
+  //   getSearchContent();
+  // }, []);
   
   return (
     <Search placeholder="搜索仓库" value={searchContext} onSearch={onSearch} onChange={onChange} />

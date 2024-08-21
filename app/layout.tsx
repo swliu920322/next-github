@@ -9,7 +9,6 @@ import { SearchBar } from '@/components/layout/SearchBar';
 import StoreProvider from '@/app/StoreProvider';
 import { HeaderAvatar } from '@/components/layout/Avatar';
 import Link from 'next/link';
-import { PageLoading } from '@/components/PageLoading';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -25,7 +24,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <html lang="en">
       <body className={inter.className}>
       <AntdRegistry>
-        <PageLoading />
+        {/*<PageLoading />*/}
         <Layout className="h-screen">
           <Header className="flex justify-between items-center ">
             <div className="flex gap-8 h-full">
