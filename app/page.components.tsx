@@ -5,8 +5,6 @@ import { useDealLogin } from '@/lib/utils/Auth';
 import { RepoItem } from '@/components/index/RepoItem';
 import { useCallback, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useAppSelector } from '@/lib/hooks';
-import { selectUserInfo } from '@/lib/features/user/userSlice';
 
 export function LoginButton(props) {
   const { login } = useDealLogin();
@@ -21,10 +19,8 @@ export function TabSelect() {
   const [activeKey, setActiveKey] = useState('0');
   const router = useRouter();
   const searchParams = useSearchParams();
-  const userInfo = useAppSelector(selectUserInfo);
 
   useEffect(() => {
-    console.log('TabSelect');
     const key = searchParams.get('tab');
     setActiveKey(key || '0');
   }, []);
