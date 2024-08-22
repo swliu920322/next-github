@@ -40,7 +40,8 @@ export async function GET(request: Request) {
     cookies().set('githubAuth', JSON.stringify(result));
     const { access_token, token_type } = result;
     const userInfo = await getUserInfo(token_type, access_token);
-    cookies().set('userInfo', JSON.stringify(userInfo));
+    cookies().set
+    ('userInfo', JSON.stringify(userInfo));
     return redirect(cookies().get('path')?.value || '/');
   }
   return new Response('code no exist', { status: 500 });
