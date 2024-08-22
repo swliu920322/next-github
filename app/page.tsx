@@ -76,19 +76,16 @@ import { cookies, headers } from 'next/headers';
 import { UserInfo } from '@/components/index/userInfo';
 
 export default function Page(props) {
-  console.log(props, 'props');
+  // console.log(props, 'props');
   const cookie = cookies();
   const headersList = headers();
-  console.log([...headersList.entries()]);
-  console.log(cookie.getAll());
-
   const userInfo = null;
   if (!userInfo) {
     return (
       <div className="h-full flex justify-center items-center">
         <div className="flex flex-col justify-center items-center">
           <span>亲，你还没有登录哦</span>
-          <LoginButton />
+          <LoginButton  />
         </div>
       </div>
     );

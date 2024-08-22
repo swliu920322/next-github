@@ -8,7 +8,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useAppSelector } from '@/lib/hooks';
 import { selectUserInfo } from '@/lib/features/user/userSlice';
 
-export function LoginButton() {
+export function LoginButton(props) {
   const { login } = useDealLogin();
   return (
     <Button type="primary" onClick={login}>
