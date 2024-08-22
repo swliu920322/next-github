@@ -11,7 +11,7 @@
 
 - server 传递 属性给 client
 - antd的 createFromIconfontCN
-
+- 不支持从服务端向客户端传递函数
 ## RSC 支持的
 
 - useCallback
