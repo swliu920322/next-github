@@ -7,7 +7,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { getList } from '@/app/page.action';
 
-export function LoginButton(props) {
+export function LoginButton() {
   const { login } = useDealLogin();
   return (
     <Button type="primary" onClick={login}>

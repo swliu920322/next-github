@@ -15,8 +15,13 @@ function getToken(code: string) {
       Accept: 'application/json',
     },
   })
-    .then((r) => r.json())
-    .catch(() => new Response('get Token Error', { status: 500 }));
+    .then((r) => {
+      return r.json();
+    })
+    .catch((err) => {
+      console.log('getTokenErr', err);
+      return new Response('get Token Error', { status: 500 });
+    });
 }
 
 // 解析code
@@ -28,7 +33,10 @@ function getUserInfo(token_type, access_token) {
     headers: { Authorization: `${token_type} ${access_token}` },
   })
     .then((r) => r.json())
-    .catch(() => new Response('get UserInfo Error', { status: 500 }));
+    .catch((err) => {
+      console.log('getUserInfoErr', err);
+      return new Response('get UserInfo Error', { status: 500 });
+    });
 }
 
 export async function GET(request: Request) {
@@ -37,12 +45,13 @@ export async function GET(request: Request) {
   const code = searchParams.get('code');
   if (code) {
     const result = await getToken(code);
-    cookies().set('githubAuth', JSON.stringify(result));
-    const { access_token, token_type } = result;
-    const userInfo = await getUserInfo(token_type, access_token);
-    cookies().set
-    ('userInfo', JSON.stringify(userInfo));
-    return redirect(cookies().get('path')?.value || '/');
+    if (Object.keys(result).length) {
+      cookies().set('githubAuth', JSON.stringify(result));
+      const { access_token, token_type } = result;
+      const userInfo = await getUserInfo(token_type, access_token);
+      cookies().set('userInfo', JSON.stringify(userInfo));
+      return redirect(cookies().get('path')?.value || '/');
+    }
   }
   return new Response('code no exist', { status: 500 });
 }
