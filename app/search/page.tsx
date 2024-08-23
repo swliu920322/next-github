@@ -1,7 +1,6 @@
 import { request } from '@/app/lib/request';
 import { getQueryStr } from '@/lib/utils/dealPathname';
-import { CategoryLanguage, CategoryOrder, PageComponent } from '@/app/search/page.component';
-import { RepoItem } from '@/components/index/RepoItem';
+import { CategoryLanguage, CategoryOrder, DataPageComponent } from '@/app/search/page.component';
 import { Suspense } from 'react';
 import { Spin } from 'antd';
 
@@ -14,14 +13,13 @@ const SORT_TYPES = [
   { name: 'Fewest forks', value: 'forks', order: 'asc' },
 ];
 
-function getSearchContent(searchParams) {
+async function getSearchContent(searchParams) {
+  'use server';
   const queryStr = getQueryStr(searchParams, true);
-  return request(`/github/search/repositories${queryStr}`);
+  return await request(`/github/search/repositories${queryStr}`);
 }
 
 export default async function Search({ searchParams }) {
-  const listData = await getSearchContent(searchParams);
-
   return (
     <div className="flex p-4 overflow-hidden h-full">
       <div className="flex w-40 flex-col overflow-auto h-full">
@@ -30,12 +28,7 @@ export default async function Search({ searchParams }) {
       </div>
       <div className="flex-1 flex flex-col ml-4 overflow-hidden h-full relative">
         <Suspense fallback={<Spin />}>
-          <div className="flex flex-1 flex-col gap-3 border-slate-500 border-t overflow-auto">
-            {listData?.items?.map((item) => <RepoItem key={item.id} item={item} />)}
-          </div>
-          <div className="mt-2 self-center">
-            <PageComponent searchParams={searchParams} total={listData?.total_count || 0} />
-          </div>
+          <DataPageComponent getSearchContent={getSearchContent} searchParams={searchParams} />
         </Suspense>
       </div>
     </div>

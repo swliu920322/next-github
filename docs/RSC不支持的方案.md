@@ -29,4 +29,4 @@
 - fetch时不会走middleware，所以要额外封装一个处理请求的
 
 ### RSC 不支持
-- 传递函数给client Component
+- 传递函数给client Component,但可以传递 Server Action
