@@ -1,24 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server';
-
-const github_base_url = 'https://api.github.com';
+import { config as configs } from '@/config.mjs';
 
 export function middleware(request: NextRequest) {
-  const pathname = request.nextUrl.pathname;
+  const { pathname, search } = request.nextUrl;
   if (pathname.startsWith('/github')) {
+    console.log('pathname', pathname);
     const requestHeaders = new Headers(request.headers);
     requestHeaders.set('Accept', 'application/json');
     requestHeaders.set('Content-Type', 'application/json');
-    const newReq = { request: { ...request, headers: requestHeaders } };
     let githubAuth = request.cookies.get('githubAuth')?.value;
     if (githubAuth) {
       const { access_token, token_type } = JSON.parse(githubAuth);
       requestHeaders.set('Authorization', `${token_type} ${access_token}`);
     }
+    const newReq = { request: { ...request, cookie: '', headers: requestHeaders } };
     const newPath = pathname.slice(7);
-    return NextResponse.rewrite(`${github_base_url}${newPath}`, newReq);
+    return NextResponse.rewrite(`${configs.github.github_base_url}${newPath}${search}`, newReq);
   }
 }
 
-// export const config = {
-//   matcher: '/github/:path*',
-// };
+export const config = {
+  matcher: '/github/:path*',
+};

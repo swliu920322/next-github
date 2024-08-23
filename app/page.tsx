@@ -2,7 +2,7 @@ import { LoginButton, TabSelect } from '@/app/page.components';
 import { cookies } from 'next/headers';
 import { UserInfo } from '@/components/index/userInfo';
 
-export default function Page() {
+export default async function Page() {
   let userInfo = cookies().get('userInfo')?.value;
   if (userInfo) {
     userInfo = JSON.parse(userInfo);

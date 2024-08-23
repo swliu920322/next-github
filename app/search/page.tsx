@@ -1,14 +1,7 @@
-import { request } from '@/server/apiAgent.mjs';
+import { request } from '@/app/lib/request';
 import { getQueryStr } from '@/lib/utils/dealPathname';
-import { Category, RepoList } from '@/app/search/page.component';
-
-// 查询接口，需要处理一些字段
-function getData({ query, language, sort, order, page = 1, per_page = 10 }) {
-  const queryStr = getQueryStr({ query, language, sort, order, page, per_page }, true);
-  return request({ url: `/search/repositories${queryStr}` }).then((res) => {
-    return res?.data || [];
-  });
-}
+import { Category, PageComponent } from '@/app/search/page.component';
+import { RepoItem } from '@/components/index/RepoItem';
 
 const languages = ['JavaScript', 'HTML', 'CSS', 'TypeScript', 'Java', 'Rust'];
 const SORT_TYPES = [
@@ -18,7 +11,14 @@ const SORT_TYPES = [
   { name: 'Most forks', value: 'forks', order: 'desc' },
   { name: 'Fewest forks', value: 'forks', order: 'asc' },
 ];
-export default function Search({ searchParams }) {
+
+function getSearchContent(searchParams) {
+  const queryStr = getQueryStr(searchParams, true);
+  return request(`/github/search/repositories${queryStr}`);
+}
+
+export default async function Search({ searchParams }) {
+  const listData = await getSearchContent(searchParams);
   // const [result, setRes] = useState({ items: [] });
   // let [loading, setLoading] = useState(true);
   // const router = useRouter();
@@ -63,13 +63,13 @@ export default function Search({ searchParams }) {
           // highlight={(i) => i === searchParams.language}
           // dealFunc={handleLanguage}
         />
-        <Category
-          header={<span>排序</span>}
-          dataSource={SORT_TYPES}
-          // value={(i) => i.name}
-          // highlight={dealSort}
-          // dealFunc={handleOrder}
-        />
+        {/*<Category*/}
+        {/*  header={<span>排序</span>}*/}
+        {/*  dataSource={SORT_TYPES}*/}
+        {/*  // value={(i) => i.name}*/}
+        {/*  // highlight={dealSort}*/}
+        {/*  // dealFunc={handleOrder}*/}
+        {/*/>*/}
         {/*<List*/}
         {/*  header={<span>语言</span>}*/}
         {/*  bordered*/}
@@ -98,24 +98,12 @@ export default function Search({ searchParams }) {
         {/*/>*/}
       </div>
       <div className="flex-1 flex flex-col ml-4 overflow-hidden h-full relative">
-        {/*<div className="flex flex-1 flex-col gap-3 border-slate-500 border-t overflow-auto">*/}
-        {/*  {result?.items?.map((item) => <RepoItem key={item.id} item={item} />)}*/}
-        {/*</div>*/}
-        {/*{loading && (*/}
-        {/*  <div className="bg-grey-300 absolute left-0 top-0 w-full h-full flex justify-center items-center">*/}
-        {/*    <Spin />*/}
-        {/*  </div>*/}
-        {/*)}*/}
-        {/*<div className="mt-2 self-center">*/}
-        {/*  /!* 修复github最大返回数量大于1000的问题*!/*/}
-        {/*  <Pagination*/}
-        {/*    pageSize={Number(searchParams.per_page) || 10}*/}
-        {/*    current={Number(searchParams.page) || 1}*/}
-        {/*    total={Math.min(result?.total_count || 0, 1000)}*/}
-        {/*    onChange={pageChange}*/}
-        {/*  />*/}
-        {/*</div>*/}
-        <RepoList searchParams={searchParams} />
+        <div className="flex flex-1 flex-col gap-3 border-slate-500 border-t overflow-auto">
+          {listData?.items?.map((item) => <RepoItem key={item.id} item={item} />)}
+        </div>
+        <div className="mt-2 self-center">
+          <PageComponent searchParams={searchParams} total={listData?.total_count || 0} />
+        </div>
       </div>
     </div>
   );

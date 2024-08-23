@@ -5,12 +5,13 @@ import { Button } from 'antd';
 
 export function useDealLogin() {
   const pathName = usePathname();
+  const router = useRouter();
   const login = async () => {
     await fetch('api/github', {
       method: 'post',
       body: JSON.stringify({ pathName }),
     });
-    location.href = process.env.OAUTH_URL;
+    router.replace(process.env.OAUTH_URL);
   };
   return {
     login,
