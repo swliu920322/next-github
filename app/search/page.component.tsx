@@ -3,6 +3,7 @@ import { List, Pagination } from 'antd';
 import { getQueryStr } from '@/lib/utils/dealPathname';
 import Item from 'antd/lib/list/Item';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useMemo } from 'react';
 
 export function PageComponent({ searchParams, total }) {
   const router = useRouter();
@@ -22,26 +23,59 @@ export function PageComponent({ searchParams, total }) {
   );
 }
 
-export function Category({
-  header,
-  dataSource,
-  value = (i) => i,
-  highlight = (i: Object) => true,
-  dealFunc,
-}) {
-  const searchParams = useSearchParams();
+export function CategoryLanguage({ dataSource, searchParams = {} }: any) {
+  const router = useRouter();
+  const language = useMemo(() => searchParams?.language, [searchParams]);
+
+  function handleLanguage(item: string) {
+    const queryStr = getQueryStr({ ...searchParams, language: item });
+    router.push(`/search${queryStr}`);
+  }
+
   return (
     <List
-      header={header}
+      header={<span>语言</span>}
       bordered
       dataSource={dataSource}
-      renderItem={(item, index) => (
+      renderItem={(item) => (
         <Item
-          key={index}
-          className={`cursor-pointer ${highlight(item) && 'border-l-2 border-blue-400 active-item'}`}
-          onClick={() => !highlight(item) && dealFunc(item)}
+          className={`cursor-pointer ${item === language && 'border-l-2 border-blue-400 active-item'}`}
+          onClick={() => item !== language && handleLanguage(item)}
         >
-          {value(item)}
+          {item}
+        </Item>
+      )}
+    />
+  );
+}
+
+export function CategoryOrder({ dataSource, searchParams }) {
+  const router = useRouter();
+
+  function handleOrder(item) {
+    const queryStr = getQueryStr({ ...searchParams, sort: item.value, order: item.order });
+    router.push(`/search${queryStr}`);
+  }
+
+  function dealSort(item) {
+    const { sort, order } = searchParams;
+    if (item.value) {
+      return item.value === sort && item.order === order;
+    }
+    return !item.value && !order;
+  }
+
+  return (
+    <List
+      header={<span>排序</span>}
+      bordered
+      dataSource={dataSource}
+      renderItem={(item) => (
+        <Item
+          className={`cursor-pointer ${dealSort(item) && 'border-l-2 border-blue-400 active-item'}`}
+          onClick={() => !dealSort(item) && handleOrder(item)}
+        >
+          {item.name}
         </Item>
       )}
     />

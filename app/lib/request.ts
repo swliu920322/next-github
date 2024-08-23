@@ -11,9 +11,6 @@ export async function request(url: string, others?: any) {
     request.headers.set('Authorization', `${token_type} ${access_token}`);
     request.headers.set('Accept', 'application/json');
     request.headers.set('Content-Type', 'application/json');
-    console.log(request.url);
-    console.log(request.headers);
-    console.log(request.method);
     return fetch(request, others).then((r) => r.json());
   }
   return null;

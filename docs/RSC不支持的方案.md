@@ -15,8 +15,7 @@
 
 ## RSC 支持的
 
-- useCallback
-- fetch 不会走middleware，所以要额外封装一个处理请求的
+[//]: # (- useCallback)
 
 ### RSC 支持的内容
 
@@ -26,4 +25,8 @@
 - 动态路由的params
 - 当URL的query变更时，RSC会重新渲染，可以进行数据请求
 - RSC props包含 params(路由动态) 和 searchParams(query)
-- 传递数据给client Component
+- 传递数据给client Component,
+- fetch时不会走middleware，所以要额外封装一个处理请求的
+
+### RSC 不支持
+- 传递函数给client Component
