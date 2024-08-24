@@ -1,5 +1,5 @@
-import { Spin } from 'antd';
+import { PageLoading } from '@/components/PageLoading';
 
 export default function Loading() {
-  return <Spin />;
+  return <PageLoading />;
 }

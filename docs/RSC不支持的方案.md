@@ -30,3 +30,8 @@
 
 ### RSC 不支持
 - 传递函数给client Component,但可以传递 Server Action
+
+## Layout
+layout是一个是共享页面，不会重绘，所以不接受可能改变的东西。
+- 不接受searchParams
+- 不接受pathname
