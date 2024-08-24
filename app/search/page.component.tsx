@@ -1,35 +1,38 @@
 'use client';
+
 import { List, Pagination } from 'antd';
 import { getQueryStr } from '@/lib/utils/dealPathname';
 import Item from 'antd/lib/list/Item';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useMemo } from 'react';
 import { RepoItem } from '@/components/index/RepoItem';
+import useSWR from 'swr';
+import { PageLoading } from '@/components/PageLoading';
 
 export function DataPageComponent({ searchParams, getSearchContent }) {
   const router = useRouter();
-  const [listData, setListData] = useState({});
-  useEffect(() => {
-    getSearchContent(searchParams).then((r) => {
-      setListData(r);
-    });
-  }, [getSearchContent, searchParams]);
+  const { data, isLoading } = useSWR(JSON.stringify(searchParams), () =>
+    getSearchContent(searchParams)
+  );
 
   function pageChange(page: Number, per_page: Number = 10) {
     const queryStr = getQueryStr({ ...searchParams, page, per_page });
     router.push(`/search${queryStr}`);
   }
 
+  if (isLoading) {
+    return <PageLoading />;
+  }
   return (
     <>
       <div className="flex flex-1 flex-col gap-3 border-slate-500 border-t overflow-auto">
-        {listData?.items?.map((item) => <RepoItem key={item.id} item={item} />)}
+        {data?.items?.map((item) => <RepoItem key={item.id} item={item} />)}
       </div>
       <div className="mt-2 self-center">
         <Pagination
           pageSize={Number(searchParams?.per_page) || 10}
           current={Number(searchParams?.page) || 1}
-          total={Math.min(listData?.total_count || 0, 1000)}
+          total={Math.min(data?.total_count || 0, 1000)}
           onChange={pageChange}
         />
       </div>

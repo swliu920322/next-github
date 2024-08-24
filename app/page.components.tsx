@@ -6,6 +6,8 @@ import { RepoItem } from '@/components/index/RepoItem';
 import { useCallback, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { getList } from '@/app/page.action';
+import useSWR from 'swr';
+import { PageLoading } from '@/components/PageLoading';
 
 export function LoginButton() {
   const { login } = useDealLogin();
@@ -20,17 +22,11 @@ export function TabSelect() {
   const [activeKey, setActiveKey] = useState('0');
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [repos, setRepos] = useState([]);
-  const [starred, setStarred] = useState([]);
-
+  const { data, isLoading } = useSWR('getUserRepo', getList);
   useEffect(() => {
     const key = searchParams.get('tab');
     setActiveKey(key || '0');
-    getList().then((r) => {
-      setRepos(r.repos);
-      setStarred(r.stars);
-    });
-  }, []);
+  }, [searchParams]);
 
   const onChange = useCallback((key) => {
     setActiveKey(key);
@@ -38,8 +34,8 @@ export function TabSelect() {
   }, []);
 
   const items: TabsProps['items'] = [
-    { label: '你的仓库', data: repos },
-    { label: '你关注的仓库', data: starred },
+    { label: '你的仓库', data: data?.repos || [] },
+    { label: '你关注的仓库', data: data?.stars || [] },
   ].map((i, index) => {
     return {
       key: index + '',
@@ -53,5 +49,8 @@ export function TabSelect() {
       ) : null,
     };
   });
+  if (isLoading) {
+    return <PageLoading />;
+  }
   return <Tabs activeKey={activeKey} onChange={onChange} className="h-full" items={items} />;
 }
