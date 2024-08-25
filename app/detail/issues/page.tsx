@@ -1,27 +1,31 @@
-'use client';
+import { request } from '@/app/lib/request';
+import { Suspense } from 'react';
+import { PageLoading } from '@/components/PageLoading';
+import { IssueItem } from '@/app/detail/issues/page.components';
 
-import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { request } from '@/server/apiAgent.mjs';
-import { CompIssues } from '@/app/detail/issues/comp-issues';
-
-export default function Page() {
-  const searchParams = useSearchParams();
-  const owner = searchParams.get('owner');
-  const name = searchParams.get('name');
-  const [issues, setIssues] = useState([]);
-  const [labels, setLabels] = useState([]);
-  useEffect(() => {
-    request({ url: `/repos/${owner}/${name}/issues` }).then((resp) => {
-      setIssues(resp.data);
-    });
-    request({ url: `/repos/${owner}/${name}/labels` }).then((resp) => {
-      setLabels(resp.data);
-    });
-  }, [owner, name]);
+async function GetIssues({ searchParams }) {
+  const owner = searchParams.owner;
+  const name = searchParams.name;
+  const data = await request(`/github/repos/${owner}/${name}/issues`);
   return (
-    <div>
-      <CompIssues issues={issues} />
+    <div className="flex flex-col gap-3 p-4 pt-0">
+      {data.map((issue) => (
+        <IssueItem key={issue.id} issue={issue} />
+      ))}
     </div>
+  );
+}
+
+export default function Page({ searchParams }) {
+  return (
+    <Suspense
+      fallback={
+        <div className="w-full h-full">
+          <PageLoading />
+        </div>
+      }
+    >
+      <GetIssues searchParams={searchParams} />
+    </Suspense>
   );
 }

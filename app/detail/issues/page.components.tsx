@@ -1,19 +1,11 @@
+'use client';
 import { Avatar, Button } from 'antd';
 import moment from 'moment';
+import MarkdownContent from '@/components/MarkdownContent';
 import { useState } from 'react';
 
-// faced some issue
-// import dynamic from 'next/dynamic';
-// const MarkdownContent = dynamic(() => '@/components/MarkdownContent');
-import MarkdownContent from '@/components/MarkdownContent';
-
-function IssueItem({ issue }) {
+export function IssueItem({ issue }) {
   const [showDetail, toggleDetail] = useState(false);
-
-  function showDetailFunc() {
-    toggleDetail(!showDetail);
-  }
-
   return (
     <div className="w-full">
       <div className="flex w-full items-center gap-6 border-b-2 border-blue-300 pb-2">
@@ -31,10 +23,9 @@ function IssueItem({ issue }) {
               })}
             </div>
           )}
-
           <span>Update at {moment(issue.updated_at).fromNow()}</span>
         </div>
-        <Button type="primary" onClick={showDetailFunc}>
+        <Button type="primary" onClick={() => toggleDetail(!showDetail)}>
           {showDetail ? '隐藏' : '查看'}
         </Button>
       </div>
@@ -43,16 +34,6 @@ function IssueItem({ issue }) {
           <MarkdownContent content={issue.body} />
         </div>
       )}
-    </div>
-  );
-}
-
-export function CompIssues({ issues }) {
-  return (
-    <div className="flex flex-col gap-3 p-4 pt-0">
-      {issues.map((issue) => (
-        <IssueItem key={issue.id} issue={issue} />
-      ))}
     </div>
   );
 }
