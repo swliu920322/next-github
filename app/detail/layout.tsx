@@ -1,9 +1,5 @@
 import { CompRepo } from './comp-repo';
-import { StarFilled } from '@ant-design/icons';
-import { useSearchParams } from 'next/navigation';
 import { request } from '@/app/lib/request';
-
-// import Link from 'next/link';
 
 async function getInfo(url) {
   'use server';
