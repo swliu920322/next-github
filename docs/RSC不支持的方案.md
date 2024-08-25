@@ -30,6 +30,7 @@
 
 ### RSC 不支持
 - 传递函数给client Component,但可以传递 Server Action
+- client Component直接使用 server action 不会走middleware
 
 ## Layout
 layout是一个是共享页面，不会重绘，所以不接受可能改变的东西。
