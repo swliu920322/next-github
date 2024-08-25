@@ -1,15 +1,20 @@
 'use client';
 
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Button } from 'antd';
 
 export function useDealLogin() {
   const pathName = usePathname();
+  const searchParams = useSearchParams();
+  const query = searchParams.entries().reduce((r, c, index) => {
+    const [key, value] = c;
+    return r + (index === 0 ? '?' : '&') + `${key}=${value}`;
+  }, '');
   const router = useRouter();
   const login = async () => {
     await fetch('api/github', {
       method: 'post',
-      body: JSON.stringify({ pathName }),
+      body: JSON.stringify({ pathName: pathName + query }),
     });
     router.replace(process.env.OAUTH_URL);
   };
