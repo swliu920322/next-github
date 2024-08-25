@@ -1,20 +1,30 @@
-'use client';
-import { request } from '@/server/apiAgent.mjs';
-import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { Suspense } from 'react';
+import { request } from '@/app/lib/request';
+import { PageLoading } from '@/components/PageLoading';
 import MarkdownContent from '@/components/MarkdownContent';
 
-export default function Page() {
-  const searchParams = useSearchParams();
-  const owner = searchParams.get('owner');
-  const name = searchParams.get('name');
+export async function MyContent({ searchParams }) {
+  if (searchParams) {
+    const owner = searchParams.owner;
+    const name = searchParams.name;
+    const data = await request(`/github/repos/${owner}/${name}/readme`);
+    const content = atob(data.content);
+    return <MarkdownContent content={content} />;
+  }
+}
 
-  const [readme, setReadme] = useState('');
-  useEffect(() => {
-    request({ url: `/repos/${owner}/${name}/readme` }).then((resp) => {
-      setReadme(atob(resp.data.content));
-    });
-  }, [owner, name]);
+export default function Page({ searchParams }) {
+  function Loading() {
+    return (
+      <div className="w-full h-full">
+        <PageLoading />
+      </div>
+    );
+  }
 
-  return <MarkdownContent content={readme} />;
+  return (
+    <Suspense fallback={<Loading />}>
+      <MyContent searchParams={searchParams} />
+    </Suspense>
+  );
 }
