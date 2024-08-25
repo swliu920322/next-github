@@ -21,7 +21,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en">
       <body className={inter.className}>
         <AntdRegistry>
-          {/*<PageLoading />*/}
           <Layout className="h-screen">
             <Header className="flex justify-between items-center ">
               <div className="flex gap-8 h-full">

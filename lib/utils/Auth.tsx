@@ -34,3 +34,12 @@ export function Logout() {
     </div>
   );
 }
+
+export function Login() {
+  const { login } = useDealLogin();
+  return (
+    <div>
+      <Button onClick={login}>登入</Button>
+    </div>
+  );
+}
