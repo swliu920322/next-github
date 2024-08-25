@@ -4,35 +4,40 @@ import { List, Pagination } from 'antd';
 import { getQueryStr } from '@/lib/utils/dealPathname';
 import Item from 'antd/lib/list/Item';
 import { useRouter } from 'next/navigation';
-import { useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { RepoItem } from '@/components/index/RepoItem';
 import useSWR from 'swr';
 import { PageLoading } from '@/components/PageLoading';
 
 export function DataPageComponent({ searchParams, getSearchContent }) {
+  const [total, setTotal] = useState(0);
   const router = useRouter();
   const { data, isLoading } = useSWR(JSON.stringify(searchParams), () =>
-    getSearchContent(searchParams)
+    getSearchContent(searchParams).then((r) => {
+      setTotal(Math.min(r?.total_count || 0, 1000));
+      return r;
+    })
   );
 
-  function pageChange(page: Number, per_page: Number = 10) {
+  const pageChange = useCallback((page: Number, per_page: Number = 10) => {
     const queryStr = getQueryStr({ ...searchParams, page, per_page });
     router.push(`/search${queryStr}`);
-  }
+  }, []);
 
-  if (isLoading) {
-    return <PageLoading />;
-  }
   return (
     <>
-      <div className="flex flex-1 flex-col gap-3 border-slate-500 border-t overflow-auto">
-        {data?.items?.map((item) => <RepoItem key={item.id} item={item} />)}
-      </div>
+      {isLoading ? (
+        <PageLoading />
+      ) : (
+        <div className="flex flex-1 flex-col gap-3 border-slate-500 border-t overflow-auto">
+          {data?.items?.map((item) => <RepoItem key={item.id} item={item} />)}
+        </div>
+      )}
       <div className="mt-2 self-center">
         <Pagination
           pageSize={Number(searchParams?.per_page) || 10}
           current={Number(searchParams?.page) || 1}
-          total={Math.min(data?.total_count || 0, 1000)}
+          total={total}
           onChange={pageChange}
         />
       </div>

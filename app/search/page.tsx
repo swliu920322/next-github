@@ -1,8 +1,6 @@
 import { request } from '@/app/lib/request';
 import { getQueryStr } from '@/lib/utils/dealPathname';
 import { CategoryLanguage, CategoryOrder, DataPageComponent } from '@/app/search/page.component';
-import { Suspense } from 'react';
-import { Spin } from 'antd';
 
 const languages = ['JavaScript', 'HTML', 'CSS', 'TypeScript', 'Java', 'Rust'];
 const SORT_TYPES = [
@@ -27,9 +25,7 @@ export default async function Search({ searchParams }) {
         <CategoryOrder dataSource={SORT_TYPES} searchParams={searchParams} />
       </div>
       <div className="flex-1 flex flex-col ml-4 overflow-hidden h-full relative">
-        <Suspense fallback={<Spin />}>
-          <DataPageComponent getSearchContent={getSearchContent} searchParams={searchParams} />
-        </Suspense>
+        <DataPageComponent getSearchContent={getSearchContent} searchParams={searchParams} />
       </div>
     </div>
   );
