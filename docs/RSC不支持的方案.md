@@ -36,3 +36,8 @@
 layout是一个是共享页面，不会重绘，所以不接受可能改变的东西。
 - 不接受searchParams
 - 不接受pathname
+- 对于layout有通用逻辑，涉及到有数据处理和请求
+  - [ ] 看能不能在layout进行请求，如果涉及到pathname和searchParams能不能在外面请求
+  - [x] 将请求抽象为Server Action然后传递
+  - 抽象为client组件
+  - 作为page的公用 RSC组件，确认下是否会重绘
