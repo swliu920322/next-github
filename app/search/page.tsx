@@ -1,4 +1,4 @@
-import { request } from '@/app/lib/request';
+import { request } from '@/lib/request';
 import { getQueryStr } from '@/lib/utils/dealPathname';
 import { CategoryLanguage, CategoryOrder, DataPageComponent } from '@/app/search/page.component';
 

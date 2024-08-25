@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { request } from '@/app/lib/request';
+import { request } from '@/lib/request';
 import { PageLoading } from '@/components/PageLoading';
 import MarkdownContent from '@/components/MarkdownContent';
 

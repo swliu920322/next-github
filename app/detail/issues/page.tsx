@@ -1,4 +1,4 @@
-import { request } from '@/app/lib/request';
+import { request } from '@/lib/request';
 import { Suspense } from 'react';
 import { PageLoading } from '@/components/PageLoading';
 import { IssueItem } from '@/app/detail/issues/page.components';

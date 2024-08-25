@@ -1,6 +1,6 @@
 'use server';
 
-import { request } from '@/app/lib/request';
+import { request } from '@/lib/request';
 
 export async function getList() {
   const apiList = [request('/github/user/repos'), request('/github/user/starred')];

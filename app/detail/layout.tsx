@@ -1,5 +1,5 @@
 import { CompRepo } from './comp-repo';
-import { request } from '@/app/lib/request';
+import { request } from '@/lib/request';
 
 async function getInfo(url) {
   'use server';
