@@ -9,11 +9,14 @@ import useSWR from 'swr';
 import { PageLoading } from '@/components/PageLoading';
 
 export function LoginButton() {
-  const { login } = useDealLogin();
+  const { login, LoginView } = useDealLogin();
   return (
-    <Button type="primary" onClick={login}>
-      登录
-    </Button>
+    <>
+      <LoginView />
+      <Button type="primary" onClick={login}>
+        登录
+      </Button>
+    </>
   );
 }
 

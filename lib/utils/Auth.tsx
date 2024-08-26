@@ -2,8 +2,11 @@
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Button } from 'antd';
+import { useMemo, useState } from 'react';
+import { PageLoading } from '@/components/PageLoading';
 
 export function useDealLogin() {
+  const [loading, setLoading] = useState(false);
   const pathName = usePathname();
   const searchParams = useSearchParams();
   const query = [...searchParams.entries()].reduce((r, c, index) => {
@@ -12,14 +15,28 @@ export function useDealLogin() {
   }, '');
   const router = useRouter();
   const login = async () => {
+    setLoading(true);
     await fetch('api/github', {
       method: 'post',
       body: JSON.stringify({ pathName: pathName + query }),
     });
+    setLoading(false);
     router.replace(process.env.OAUTH_URL || '');
   };
+
+  const LoginView = useMemo(() => {
+    if (loading) {
+      return (
+        <div className="fixed left-0 top-0 bg-gray-600">
+          <PageLoading tip="正在处理中..." />
+        </div>
+      );
+    }
+  }, [loading]);
+
   return {
     login,
+    LoginView,
   };
 }
 
@@ -41,9 +58,10 @@ export function Logout() {
 }
 
 export function Login() {
-  const { login } = useDealLogin();
+  const { login, LoginView } = useDealLogin();
   return (
     <div>
+      <LoginView />
       <Button onClick={login}>登入</Button>
     </div>
   );
