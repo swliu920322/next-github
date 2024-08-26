@@ -3,7 +3,7 @@ import { request } from '@/lib/request';
 import { PageLoading } from '@/components/PageLoading';
 import MarkdownContent from '@/components/MarkdownContent';
 
-export async function MyContent({ searchParams }) {
+async function MyContent({ searchParams }: { searchParams: Record<string, any> }) {
   const owner = searchParams.owner;
   const name = searchParams.name;
   const data = await request(`/github/repos/${owner}/${name}/readme`);
@@ -11,7 +11,7 @@ export async function MyContent({ searchParams }) {
   return <MarkdownContent content={content} />;
 }
 
-export default function Page({ searchParams }) {
+export default function Page({ searchParams }: { searchParams: Record<string, any> }) {
   return (
     <Suspense
       fallback={

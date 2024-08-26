@@ -27,7 +27,7 @@ function getToken(code: string) {
 // 解析code
 // 向github请求获得token
 // 继续请求获得用户信息
-function getUserInfo(token_type, access_token) {
+function getUserInfo(token_type: string, access_token: string) {
   return fetch(gitUser, {
     method: 'POST',
     headers: { Authorization: `${token_type} ${access_token}` },

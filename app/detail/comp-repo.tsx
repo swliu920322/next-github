@@ -7,7 +7,7 @@ import Link from 'next/link';
 import useSWR from 'swr';
 import { PageLoading } from '@/components/PageLoading';
 
-export function CompRepo({ getInfo }) {
+export function CompRepo({ getInfo }: { getInfo: Function }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const owner = searchParams.get('owner');
