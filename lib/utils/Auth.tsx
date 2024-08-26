@@ -19,18 +19,14 @@ export function useDealLogin() {
     await fetch('api/github', {
       method: 'post',
       body: JSON.stringify({ pathName: pathName + query }),
-    });
-    setLoading(false);
+    })
+    // setLoading(false);
     router.replace(process.env.OAUTH_URL || '');
   };
 
   function LoginView() {
     if (loading) {
-      return (
-        <div className="fixed left-0 top-0 w-full h-full bg-gray-200">
-          <PageLoading tip="正在处理中..." />
-        </div>
-      );
+      return <PageLoading tip="正在处理中..." isFull={true} />;
     }
   }
 
