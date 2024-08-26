@@ -7,14 +7,15 @@ with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/
 
 This project has two versions.
 
-### nextjs(App Router) + KOA + redis
+### nextjs(App Router) + KOA + redis  branch: koa
 
 This is the origin version I followed with the resources in the past.
 
-### nextjs(App Router)
+### nextjs(App Router)  branch: master
 
 This is the way we used currently. I hope this can be better.
 
+deploy site: https://next-github-pied.vercel.app/
 #### KOA
 
 koa use as the server to connect with redis, it can store

@@ -13,6 +13,9 @@
 
 ### Nextjs(App Router)
 
+部署地址：https://next-github-pied.vercel.app/
+
+
 这个是目前官网推荐的架构，能够通过RSCP(React Server Component Payload)提升性能。
 而且在学习中，我发现nextjs的功能异常的强大，所以开了新分支来探寻nextjs本身新架构的拓展性。
 
@@ -23,7 +26,7 @@
 
 ## 开始
 
-### master分支KOA方向
+### koa分支KOA方向
 
 1. 开始，先安装依赖，本地运行需要安装redis服务器，然后通过 redis-server
    启动redis服务器
@@ -39,6 +42,8 @@ pnpm dev:node
 ```
 
 ### 纯Nextjs
+
+master 分支
 
 ```bash
 pnpm dev //  master branch
