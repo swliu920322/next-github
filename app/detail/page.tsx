@@ -7,8 +7,11 @@ async function MyContent({ searchParams }: { searchParams: Record<string, any> }
   const owner = searchParams.owner;
   const name = searchParams.name;
   const data = await request(`/github/repos/${owner}/${name}/readme`);
-  const content = atob(data.content);
-  return <MarkdownContent content={content} />;
+  if (data.content) {
+    const content = atob(data.content);
+    return <MarkdownContent content={content} />;
+  }
+  return <div className="p-10">do not have a readme</div>;
 }
 
 export default function Page({ searchParams }: { searchParams: Record<string, any> }) {

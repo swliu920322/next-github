@@ -1,4 +1,3 @@
-'use client';
 import { Spin } from 'antd';
 
 export function PageLoading() {
