@@ -8,6 +8,7 @@ import './globals.css';
 import { SearchBar } from '@/components/layout/SearchBar';
 import { HeaderAvatar } from '@/components/layout/Avatar';
 import Link from 'next/link';
+import { Suspense } from 'react';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -30,7 +31,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                   </Link>
                 </div>
                 <div className="h-full flex flex-col justify-center">
-                  <SearchBar />
+                  <Suspense>
+                    <SearchBar />
+                  </Suspense>
                 </div>
               </div>
               <div className="py-4">

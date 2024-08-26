@@ -11,13 +11,13 @@ const SORT_TYPES = [
   { name: 'Fewest forks', value: 'forks', order: 'asc' },
 ];
 
-async function getSearchContent(searchParams) {
+async function getSearchContent(searchParams: Record<string, any>) {
   'use server';
   const queryStr = getQueryStr(searchParams, true);
   return await request(`/github/search/repositories${queryStr}`);
 }
 
-export default async function Search({ searchParams }) {
+export default async function Search({ searchParams }: {searchParams: Record<string, any>}) {
   return (
     <div className="flex p-4 overflow-hidden h-full">
       <div className="flex w-40 flex-col overflow-auto h-full">

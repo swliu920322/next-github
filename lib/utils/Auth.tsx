@@ -6,7 +6,7 @@ import { Button } from 'antd';
 export function useDealLogin() {
   const pathName = usePathname();
   const searchParams = useSearchParams();
-  const query = searchParams.entries().reduce((r, c, index) => {
+  const query = [...searchParams.entries()].reduce((r, c, index) => {
     const [key, value] = c;
     return r + (index === 0 ? '?' : '&') + `${key}=${value}`;
   }, '');
@@ -16,7 +16,7 @@ export function useDealLogin() {
       method: 'post',
       body: JSON.stringify({ pathName: pathName + query }),
     });
-    router.replace(process.env.OAUTH_URL);
+    router.replace(process.env.OAUTH_URL || '');
   };
   return {
     login,

@@ -1,11 +1,13 @@
 import { Avatar, Popover } from 'antd';
 import { cookies } from 'next/headers';
 import { Login, Logout } from '@/lib/utils/Auth';
+import { Suspense } from 'react';
 
 export async function HeaderAvatar() {
-  let userInfo = cookies().get('userInfo')?.value;
-  if (userInfo) {
-    userInfo = JSON.parse(userInfo);
+  let userInfo: Record<string, any> = {};
+  const userInfoCookie = cookies().get('userInfo')?.value;
+  if (userInfoCookie) {
+    userInfo = JSON.parse(userInfoCookie);
   }
   if (userInfo) {
     return (
@@ -15,8 +17,10 @@ export async function HeaderAvatar() {
     );
   }
   return (
-    <Popover content={<Login />}>
-      <Avatar size={48} icon={<img src={''} />} />;
-    </Popover>
+    <Suspense>
+      <Popover content={<Login />}>
+        <Avatar size={48} icon={<img src={''} />} />;
+      </Popover>
+    </Suspense>
   );
 }

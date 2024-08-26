@@ -11,7 +11,7 @@
 //   ],
 // });
 
-export function UserInfo({ userInfo }) {
+export function UserInfo({ userInfo }: Record<string, any>) {
   return (
     <div className="flex flex-col gap-1">
       {userInfo?.avatar_url && <img src={userInfo?.avatar_url} className="w-60 rounded-full" alt="user avatar" />}

@@ -4,7 +4,7 @@ import moment from 'moment';
 import MarkdownContent from '@/components/MarkdownContent';
 import { useState } from 'react';
 
-export function IssueItem({ issue }) {
+export function IssueItem({ issue }: { issue: Record<string, any> }) {
   const [showDetail, toggleDetail] = useState(false);
   return (
     <div className="w-full">
@@ -14,7 +14,7 @@ export function IssueItem({ issue }) {
           <h6>{issue.title}</h6>
           {issue?.labels?.length && (
             <div className="flex gap-2">
-              {issue.labels.map((i) => {
+              {issue.labels.map((i: Record<string, any>) => {
                 return (
                   <div key={i.id} className="p-2 rounded-xl" style={{ background: `#${i.color}` }}>
                     {i.name}

@@ -4,7 +4,7 @@ import moment from 'moment';
 moment.locale('zh-cn');
 import { StarFilled } from '@ant-design/icons';
 
-export function RepoItem(props) {
+export function RepoItem(props: Record<string, any>) {
   const repo = props.item;
   return (
     <div className="flex w-full gap-1 justify-between items-center border-slate-500 border-b py-2">
