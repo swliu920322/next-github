@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Button } from 'antd';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { PageLoading } from '@/components/PageLoading';
 
 export function useDealLogin() {
@@ -27,7 +27,7 @@ export function useDealLogin() {
   function LoginView() {
     if (loading) {
       return (
-        <div className="fixed left-0 top-0 bg-gray-600">
+        <div className="fixed left-0 top-0 w-full h-full bg-gray-200">
           <PageLoading tip="正在处理中..." />
         </div>
       );
