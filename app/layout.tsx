@@ -36,6 +36,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                   </Suspense>
                 </div>
               </div>
+              <Link target="_blank" href="https://github.com/swliu920322/next-github">
+                <span className="text-white">前往github查看源代码</span>
+              </Link>
               <div className="py-4">
                 <HeaderAvatar />
               </div>
@@ -43,7 +46,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <Content className="overflow-auto bg-white">{children}</Content>
             <Footer className="flex justify-center">
               Developed by
-              <Link href="https://github.com/swliu920322" className="ml-2">
+              <Link target="_blank" href="https://github.com/swliu920322" className="ml-2">
                 Max
               </Link>
             </Footer>
