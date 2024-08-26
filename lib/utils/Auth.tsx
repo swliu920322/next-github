@@ -24,7 +24,7 @@ export function useDealLogin() {
     router.replace(process.env.OAUTH_URL || '');
   };
 
-  const LoginView = useMemo(() => {
+  function LoginView() {
     if (loading) {
       return (
         <div className="fixed left-0 top-0 bg-gray-600">
@@ -32,7 +32,7 @@ export function useDealLogin() {
         </div>
       );
     }
-  }, [loading]);
+  }
 
   return {
     login,
