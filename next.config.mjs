@@ -18,6 +18,15 @@ const nextConfig = {
     OAUTH_URL: `${GITHUB_OAUTH_URL}?client_id=${config.github.client_id}&scope=${scope}`,
     customKey: 'my-value',
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'avatars.githubusercontent.com',
+        port: '',
+      },
+    ],
+  },
 };
 
 export default withBundleAnalyzer(nextConfig);
