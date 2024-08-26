@@ -38,6 +38,7 @@ export default async function Page() {
           <span>{userInfo.login}</span>
           <span>{userInfo.bio}</span>
           <span>{userInfo.location}</span>
+          <span>{userInfo.company}</span>
           <p className="flex items-center gap-2">
             <svg
               className="w-4 h-4"
