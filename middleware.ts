@@ -4,7 +4,6 @@ import { config as configs } from '@/config.mjs';
 export function middleware(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
   if (pathname.startsWith('/github')) {
-    console.log('pathname', pathname);
     const requestHeaders = new Headers(request.headers);
     requestHeaders.set('Accept', 'application/json');
     requestHeaders.set('Content-Type', 'application/json');
