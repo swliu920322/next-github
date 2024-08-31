@@ -25,7 +25,6 @@ export function TabSelect() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { data, isLoading } = useSWR('getUserRepo', getList);
-  console.log(data);
   useEffect(() => {
     const key = searchParams.get('tab');
     setActiveKey(key || '0');
