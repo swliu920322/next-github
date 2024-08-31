@@ -15,6 +15,7 @@ export function useDealLogin() {
   }, '');
   const router = useRouter();
   const login = async () => {
+    console.log('login');
     setLoading(true);
     await fetch('api/github', {
       method: 'post',

@@ -3,7 +3,7 @@ import { cookies } from 'next/headers';
 import { Suspense } from 'react';
 import Image from 'next/image';
 
-export default async function Page() {
+export default async function Page({ searchParams }) {
   let userInfo: Record<string, any> = {};
   const userInfoCookie = cookies().get('userInfo')?.value;
   if (userInfoCookie) {
@@ -13,7 +13,11 @@ export default async function Page() {
     return (
       <div className="h-full flex justify-center items-center">
         <div className="flex flex-col justify-center items-center">
-          <span>亲，你还没有登录哦</span>
+          {searchParams.error ? (
+            <div className="p-10 flex justify-center">登录失败：{searchParams.error}</div>
+          ) : (
+            <span>亲，你还没有登录哦</span>
+          )}
           <Suspense>
             <LoginButton />
           </Suspense>
